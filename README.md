@@ -14,3 +14,9 @@ For example:
 ```
 python extract.py OlympusMonds > monds.txt  # redirecting to a file is a good idea
 ```
+
+I imagine if you go too hard on this, ask.fm may get annoyed, so take it easy.
+
+# TODO:
+- Make it get the latest page
+- Check how old the pickle file is (or maybe only have it for debug mode?)
