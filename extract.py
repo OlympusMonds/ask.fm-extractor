@@ -33,7 +33,7 @@ def process_soup(sp):
 
 
 def extract(account_name):
-    picklefile = "sj.p"
+    picklefile = "{}.p".format(account_name)
 
     if os.path.isfile(picklefile):
         with open(picklefile, 'rb') as f:
