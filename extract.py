@@ -10,9 +10,9 @@ def get_html(url):
     r = urllib.urlopen(url)
     return r.read()
 
+
 def read_html(doc):
     soup = BeautifulSoup(doc, 'html.parser')
-    
     return soup
 
 
@@ -27,14 +27,12 @@ def process_soup(sp):
         ansdict["question"] = ans.find("h1", class_="streamItemContent streamItemContent-question").get_text().strip()
         for anschunk in ans.find_all("p", class_="streamItemContent streamItemContent-answer"):
             ansdict["answer"] += "\n" + anschunk.get_text()
-        
         whole_answer_list.append(ansdict)
 
     return whole_answer_list
 
 
 def extract(account_name):
-
     picklefile = "sj.p"
 
     if os.path.isfile(picklefile):
