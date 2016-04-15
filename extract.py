@@ -50,6 +50,7 @@ def extract(account_name, newline = "\n", cache_raw=False):
         sp = read_html(doc)
         all_qa.extend(process_soup(sp, newline))
         pagenum += 1
+        print("Finished page num {}".format(pagenum))
     
     if cache_raw:
         with open(picklefile, 'wb') as f:
@@ -67,6 +68,7 @@ def extract(account_name, newline = "\n", cache_raw=False):
         except KeyError:
             output.append(newline + "ERROR OCCURRED" + newline)
 
+    print("returning lots of output")
     return newline.join(output)
 
 

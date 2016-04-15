@@ -7,11 +7,13 @@ ask_flask = Flask(__name__)
 def index():
     return ("<h1> Ask.fm extractor </h1><p>"
             "To use this site, add a /username after the .com</br>"
-            "For example .com/olympusmonds")
+            "For example olympusmonds.pythonanywhere.com/olympusmonds")
 
 
 @ask_flask.route("/<username>")
 def extract_for_user(username):
+    print("Request for {}".format(username))
+
     html = True
     if html:
         output = extract(username, newline="<br/>")
