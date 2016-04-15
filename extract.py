@@ -47,10 +47,11 @@ def extract(account_name, newline = "\n", cache_raw=False):
     while doc != "":
         url = "https://ask.fm/{}/answers/more?page={}".format(account_name, pagenum)
         doc = get_html(url)
+        print doc
         sp = read_html(doc)
         all_qa.extend(process_soup(sp, newline))
         pagenum += 1
-        print("Finished page num {}".format(pagenum))
+        print("  Finished page num {}".format(pagenum))
     
     if cache_raw:
         with open(picklefile, 'wb') as f:
