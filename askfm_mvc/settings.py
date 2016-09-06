@@ -1,0 +1,6 @@
+DATABASE = 'sqlite://'
+DEBUG = True
+
+SECRET_KEY = 'the most secret key'
+SECURITY_PASSWORD_HASH = 'bcrypt'
+SECURITY_PASSWORD_SALT = SECRET_KEY

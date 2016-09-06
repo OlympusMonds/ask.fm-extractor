@@ -1,30 +1,39 @@
-from flask import Flask, url_for, redirect
-from extract import extract
+from flask import Flask
 
-ask_flask = Flask(__name__)
+from askfm_mvc import settings
+from askfm_mvc.extensions import db, security
+from askfm_mvc.models import User, Role
+from askfm_mvc.index import bp as index
 
-@ask_flask.route("/")
-def index():
-    return ("<h1> Ask.fm extractor </h1><p>"
-            "To use this site, add a /username after the .com</br>"
-            "For example olympusmonds.pythonanywhere.com/olympusmonds")
+from flask_security import SQLAlchemyUserDatastore
+from flask_security.utils import encrypt_password
 
 
-@ask_flask.route("/<username>")
-def extract_for_user(username):
-    print("Request for {}".format(username))
+app = Flask(__name__, static_url_path = '')
 
-    html = True
-    if html:
-        output = extract(username, newline="<br/>")
-    else:
-        output = extract(username)
-    return output
+app.config.from_object(settings)
+
+db.init_app(app)
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security.init_app(app, user_datastore)
+
+
+app.register_blueprint(index)
+
+
+def init_db():
+    with app.app_context():
+        db.create_all()
+        if not User.query.first():
+            user_datastore.create_user(email='luke.s.mondy@gmail.com', 
+                                       password=encrypt_password('password'))
+            db.session.commit()
 
 
 if __name__ == "__main__":
-    ask_flask.debug = False 
-    ask_flask.run()
+    init_db()
+    app.debug = True
+    app.run()
 
 
 
