@@ -1,7 +1,7 @@
 from flask import Flask
 
 from askfm_mvc import settings
-from askfm_mvc.extensions import db, security
+from askfm_mvc.extensions import db, security, ExtendedLoginForm
 from askfm_mvc.models import User, Role
 from askfm_mvc.index import bp as index
 
@@ -15,7 +15,8 @@ app.config.from_object(settings)
 
 db.init_app(app)
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security.init_app(app, user_datastore)
+security.init_app(app, user_datastore,
+                  login_form=ExtendedLoginForm)
 
 
 app.register_blueprint(index)
@@ -25,8 +26,8 @@ def init_db():
     with app.app_context():
         db.create_all()
         if not User.query.first():
-            user_datastore.create_user(email='luke.s.mondy@gmail.com', 
-                                       password=encrypt_password('password'))
+            user_datastore.create_user(email=app.config['ADMIN_USERNAME'], 
+                                       password=encrypt_password(app.config['ADMIN_PASSWORD']))
             db.session.commit()
 
 
