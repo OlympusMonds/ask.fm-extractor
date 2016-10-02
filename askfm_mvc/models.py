@@ -23,4 +23,8 @@ class User(db.Model, UserMixin):
                             backref=db.backref('users', lazy='dynamic'))
 
 
+class AskFMUser(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), unique=True, index=True)
+    last_checked = db.Column(db.DateTime())
 
